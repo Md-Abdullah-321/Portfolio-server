@@ -1,4 +1,5 @@
 const User = require("../model/userSchema");
+const { successResponse } = require("./responseControllers");
 
 
 
@@ -20,6 +21,24 @@ const handlePostUserData = async (req, res, next) => {
 
 
 
+
+const handleGetUserData = async (req, res, next) => {
+    try {
+        const userData = await User.find({})
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User data fetched successfully",
+            payload: userData[0],
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
 module.exports = {
     handlePostUserData,
+    handleGetUserData,
 }
