@@ -38,7 +38,31 @@ const handleGetUserData = async (req, res, next) => {
 
 
 
+const handleUpdateUserData = async (req, res, next) => {
+    try {
+        const {username, email, password, phoneNumber, profilePicture, bio, resume} = req.body;
+
+        const update = {username, email, password, phoneNumber, profilePicture, bio, resume};
+        const userInfo = await User.find({})
+        const id = userInfo[0]._id;
+        const updatedUserInfo = await User.findOneAndUpdate(id, update, {
+            new: true
+          });
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User data updated successfully",
+            payload: updatedUserInfo,
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
 module.exports = {
     handlePostUserData,
     handleGetUserData,
+    handleUpdateUserData,
 }
