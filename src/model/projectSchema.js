@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const projectSchema = new mongoose.Schema({
     title: {
       type: String,
@@ -12,18 +14,9 @@ const projectSchema = new mongoose.Schema({
       type: [String],
       trim: true
     },
-    frontEnd: {
-      type: [String],
-      trim: true
-    },
-    backEnd: {
-      type: [String],
-      trim: true
-    },
-    tools: {
-      type: [String],
-      trim: true
-    },
+    frontEnd: [],
+    backEnd: [],
+    tools:[],
     live_url: {
       type: String,
       trim: true
