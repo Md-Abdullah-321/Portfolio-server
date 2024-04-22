@@ -3,7 +3,7 @@
 
 //dependencies:
 const express = require("express");
-const { handlePostProject } = require("../controllers/projectController");
+const { handlePostProject, handleGetAllProejcts } = require("../controllers/projectController");
 const projectRouter = express.Router();
 
 

@@ -41,4 +41,5 @@ const handleGetAllProejcts =  async (req, res, next) => {
 
 module.exports = {
     handlePostProject,
+    handleGetAllProejcts,
 }
