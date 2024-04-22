@@ -39,7 +39,76 @@ const handleGetAllProejcts =  async (req, res, next) => {
     }
 }
 
+
+
+const handleGetSingleProjectById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const project = await Project.findById(id);
+
+        if(!project){
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "Could not found any project with this id"
+            })
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Project fetched successfully.",
+            payload: project
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+const handleUpdateSingleProjectById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const {title, overview, features, frontEnd, backEnd, tools, live_url, github_url} = req.body;
+
+        const update = {title, overview, features, frontEnd, backEnd, tools, live_url, github_url};
+        const updatedProject = await Project.findByIdAndUpdate(id, update, {new : true});
+
+        if(!updatedProject){
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "Could not update project"
+            })
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Project updated successfully.",
+            payload: updatedProject
+        })
+
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+const handleDeleteSingleProjectById = async (req, res, next) => {
+    try {
+       const { id } = req.params;
+       await Project.findByIdAndDelete(id);
+
+       return successResponse(res, {
+        statusCode: 200,
+        message: "Project deleted successfully."
+       })
+    } catch (error) {
+        next(error);
+    }
+}
 module.exports = {
     handlePostProject,
     handleGetAllProejcts,
+    handleGetSingleProjectById,
+    handleUpdateSingleProjectById,
+    handleDeleteSingleProjectById
 }

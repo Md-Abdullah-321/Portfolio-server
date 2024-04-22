@@ -3,7 +3,7 @@
 
 //dependencies:
 const express = require("express");
-const { handlePostProject, handleGetAllProejcts } = require("../controllers/projectController");
+const { handlePostProject, handleGetAllProejcts, handleGetSingleProjectById, handleUpdateSingleProjectById, handleDeleteSingleProjectById } = require("../controllers/projectController");
 const projectRouter = express.Router();
 
 
@@ -11,6 +11,16 @@ const projectRouter = express.Router();
 projectRouter.post("/", handlePostProject);
 
 // GET: get all projects: 
-projectRouter.post("/", handleGetAllProejcts);
+projectRouter.get("/", handleGetAllProejcts);
+
+// GET: single project by id: 
+projectRouter.get("/:id", handleGetSingleProjectById);
+
+// PUT: update single project by id: 
+projectRouter.put("/:id", handleUpdateSingleProjectById);
+
+
+// DELETE: delete single project by id: 
+projectRouter.delete("/:id", handleDeleteSingleProjectById);
 
 module.exports = projectRouter;
