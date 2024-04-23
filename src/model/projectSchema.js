@@ -14,6 +14,7 @@ const projectSchema = new mongoose.Schema({
     frontEnd: [],
     backEnd: [],
     tools:[],
+    projectImages: [],
     live_url: {
       type: String,
       trim: true

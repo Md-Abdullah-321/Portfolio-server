@@ -4,13 +4,13 @@ const { errorResponse, successResponse } = require("./responseControllers");
 
 const handlePostProject  = async (req, res, next) => {
     try {
-        const {title, overview, features, frontEnd, backEnd, tools, live_url, github_url} = req.body;
+        const {title, overview, features, frontEnd, backEnd, tools, live_url, github_url, projectImages} = req.body;
 
-        if(!title || !overview || !features || !frontEnd || !backEnd || !tools){
+        if(!title || !overview || !features || !frontEnd || !backEnd || !tools || !projectImages){
             return res.status(400).json({ message: "Please fill all the input fields" });
         }
 
-        await Project.create({title, overview, features, frontEnd, backEnd, tools, live_url, github_url});
+        await Project.create({title, overview, features, frontEnd, backEnd, tools, live_url, github_url, projectImages});
         res.status(200).json({ message: "New Project created successfully." });
     } catch (error) {
         next(error);
@@ -67,9 +67,9 @@ const handleGetSingleProjectById = async (req, res, next) => {
 const handleUpdateSingleProjectById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const {title, overview, features, frontEnd, backEnd, tools, live_url, github_url} = req.body;
+        const {title, overview, features, frontEnd, backEnd, tools, live_url, github_url, projectImages} = req.body;
 
-        const update = {title, overview, features, frontEnd, backEnd, tools, live_url, github_url};
+        const update = {title, overview, features, frontEnd, backEnd, tools, live_url, github_url, projectImages};
         const updatedProject = await Project.findByIdAndUpdate(id, update, {new : true});
 
         if(!updatedProject){
