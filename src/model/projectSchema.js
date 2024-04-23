@@ -10,10 +10,7 @@ const projectSchema = new mongoose.Schema({
       type: String,
       trim: true
     },
-    features: {
-      type: [String],
-      trim: true
-    },
+    features:[],
     frontEnd: [],
     backEnd: [],
     tools:[],

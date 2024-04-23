@@ -36,7 +36,7 @@ const handleGetUserData = async (req, res) => {
 
 const handleUpdateUserData = async (req, res) => {
   try {
-    const update = { username: req.body.username, email: req.body.email, ...req.body }; // Destructuring for concise update object
+    const update = { username: req.body.username, email: req.body.email, ...req.body }; 
     const updatedUserInfo = await User.findOneAndUpdate({}, update, { new: true });
 
     res.json({
