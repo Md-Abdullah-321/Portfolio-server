@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //2. Add Cors: 
 app.use(cors({
+  origin: 'https://md-abdullah.vercel.app', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 //3. use cookie parser:
