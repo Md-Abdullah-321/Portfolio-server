@@ -12,26 +12,30 @@ const authRouter = require("./routers/authRouter");
 const app = express();
 require("dotenv").config();
 
+// CORS Configuration
+const corsOptions = {
+  origin: 'https://md-abdullah.vercel.app', // Allow this specific origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // If you need to handle cookies and authorization headers
+};
 
+// Apply CORS Middleware
+app.use(cors(corsOptions));
 
-//App level Middleware:
-//1. BodyParser - Use to parse body:
+// BodyParser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//2. Add Cors: 
-app.use(cors({
-  origin: 'https://md-abdullah.vercel.app', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
-//3. use cookie parser:
+
+// Cookie Parser Middleware
 app.use(cookieParser());
 
-
+// Test Route
 app.get("/", (req, res) => {
-  res.json({"message": "Hello World!"})
-})
+  res.json({ message: "Hello World!" });
+});
 
-//Routers:
+// Routers
 app.use("/api/user", userRouter);
 app.use("/api/education", educationRouter);
 app.use("/api/experience", experienceRouter);
@@ -39,15 +43,12 @@ app.use("/api/project", projectRouter);
 app.use("/api/skill", skillCategoryRouter);
 app.use("/api/auth", authRouter);
 
-
-//Global error handling:
-app.use((err,req, res, next) => {
-    return errorResponse(res, {
-        statusCode: err.status || 500,
-        message: err.message || "There is an error on the server."
-    })
-})
-
-
+// Global Error Handling
+app.use((err, req, res, next) => {
+  return errorResponse(res, {
+    statusCode: err.status || 500,
+    message: err.message || "There is an error on the server.",
+  });
+});
 
 module.exports = app;
