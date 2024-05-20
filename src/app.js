@@ -8,6 +8,7 @@ const { errorResponse } = require("./controllers/responseControllers");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const authRouter = require("./routers/authRouter");
 const app = express();
 require("dotenv").config();
 
@@ -35,6 +36,7 @@ app.use("/api/education", educationRouter);
 app.use("/api/experience", experienceRouter);
 app.use("/api/project", projectRouter);
 app.use("/api/skill", skillCategoryRouter);
+app.use("/api/auth", authRouter);
 
 
 //Global error handling:
