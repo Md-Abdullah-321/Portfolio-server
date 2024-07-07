@@ -78,7 +78,7 @@ const handleSeenMessageById = async (req, res, next) => {
     const updatedMessage = await Message.findByIdAndUpdate(id, message, {new : true});
     return successResponse(res, {
         statusCode: 202,
-        message: "Message deleted successfully" ,
+        message: "Message seened successfully" ,
         payload: updatedMessage,
     })
 }
