@@ -4,18 +4,28 @@ const { successResponse, errorResponse } = require("./responseControllers");
 
 const handlePostMessage = async (req, res, next) => {
     try {
-        const {name, email, subject, message} = req.body;
+       
+        const { name, email, subject, message } = req.body;
 
-        await Message.create({name, email, subject, message});
+        if (!name || !email || !subject || !message) {
+            return res.status(400).json({
+                statusCode: 400,
+                message: "Missing required fields"
+            });
+        }
 
-        return successResponse(res, {
+        await Message.create({ name, email, subject, message });
+
+        return res.status(201).json({
             statusCode: 201,
             message: "Message has been sent successfully"
-        })
+        });
     } catch (error) {
+      
         next(error);
     }
 }
+
 
 const handleGetAllMessages = async (req, res, next) => {
     try {
