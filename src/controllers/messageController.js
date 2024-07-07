@@ -69,9 +69,25 @@ const handleDeleteMessageById = async (req, res, next) => {
 }
 
 
+const handleSeenMessageById = async (req, res, next) => {
+    const id = req.params.id;
+    const message = await Message.findById(id);
+
+    message.seen = true;
+
+    const updatedMessage = await Message.findByIdAndUpdate(id, message, {new : true});
+    return successResponse(res, {
+        statusCode: 202,
+        message: "Message deleted successfully" ,
+        payload: updatedMessage,
+    })
+}
+
+
 module.exports = {
     handleDeleteMessageById,
     handleGetAllMessages,
     handleGetMessageById,
-    handlePostMessage
+    handlePostMessage,
+    handleSeenMessageById
 }

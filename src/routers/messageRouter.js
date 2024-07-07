@@ -3,7 +3,7 @@
 
 //dependencies:
 const express = require("express");
-const { handlePostMessage, handleGetAllMessages, handleGetMessageById, handleDeleteMessageById } = require("../controllers/messageController");
+const { handlePostMessage, handleGetAllMessages, handleGetMessageById, handleDeleteMessageById, handleSeenMessageById } = require("../controllers/messageController");
 const messageRouter = express.Router();
 
 //POST - post user data:
@@ -17,6 +17,10 @@ messageRouter.get("/:id", handleGetMessageById);
 
 //DELETE - by id
 messageRouter.delete("/:id", handleDeleteMessageById);
+
+
+//DELETE - by id
+messageRouter.get("/seen/:id", handleSeenMessageById);
 
 
 
