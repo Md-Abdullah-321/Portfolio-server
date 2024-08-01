@@ -43,7 +43,7 @@ const handleUserLogin = async (req, res, next) => {
             return successResponse(res, {
                 statusCode: 200,
                 message: "Logged in successfully",
-                payload: userInfo
+                payload: userInfo[0]
             });
         } else {
             return errorResponse(res, {
