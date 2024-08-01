@@ -39,7 +39,8 @@ const handleUserLogin = async (req, res, next) => {
                 sameSite: 'none' 
             });
 
-            const userInfo = await User.find({});
+            let userInfo = await User.find({});
+            delete userInfo.password;
             return successResponse(res, {
                 statusCode: 200,
                 message: "Logged in successfully",
