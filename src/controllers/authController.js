@@ -40,7 +40,7 @@ const handleUserLogin = async (req, res, next) => {
             });
 
             let userInfo = await User.find({});
-            delete userInfo.password;
+            delete userInfo[0].password;
             return successResponse(res, {
                 statusCode: 200,
                 message: "Logged in successfully",
