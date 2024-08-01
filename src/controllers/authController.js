@@ -40,7 +40,8 @@ const handleUserLogin = async (req, res, next) => {
 
             return successResponse(res, {
                 statusCode: 200,
-                message: "Logged in successfully"
+                message: "Logged in successfully",
+                payload: user
             });
         } else {
             return errorResponse(res, {
