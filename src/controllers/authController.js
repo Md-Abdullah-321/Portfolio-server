@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const Auth = require("../model/authSchema");
 const { successResponse, errorResponse } = require("./responseControllers");
 const jwt = require("jsonwebtoken");
+const User = require("../model/userSchema");
 require("dotenv").config();
 
 const handleUserLogin = async (req, res, next) => {
@@ -38,10 +39,11 @@ const handleUserLogin = async (req, res, next) => {
                 sameSite: 'none' 
             });
 
+            const userInfo = await User.find({});
             return successResponse(res, {
                 statusCode: 200,
                 message: "Logged in successfully",
-                payload: user
+                payload: userInfo
             });
         } else {
             return errorResponse(res, {
