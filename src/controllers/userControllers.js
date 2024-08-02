@@ -1,27 +1,40 @@
 const User = require("../model/userSchema");
+const bcrypt = require('bcryptjs');
+const { successResponse } = require("./responseControllers");
+
 
 const handlePostUserData = async (req, res) => {
   try {
     const { username, email, password, phoneNumber, profilePicture, bio, resume } = req.body;
 
-    // Validate required fields (early exit on missing data)
     if (!username || !email || !password || !phoneNumber || !profilePicture || !bio || !resume) {
       return res.status(400).json({ message: "Please fill all the input fields" });
     }
 
-    // Create user (single database operation)
-    await User.create({ username, email, password, phoneNumber, profilePicture, bio, resume });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    res.status(200).json({ message: "User Data inserted successfully." });
+    const user = await User.create({ username, email, password: hashedPassword, phoneNumber, profilePicture, bio, resume });
+
+    const userWithoutPassword = { ...user.toObject() };
+    delete userWithoutPassword.password;
+
+    successResponse(res, {
+      statusCode: 201,
+      message: "User has been created successfully.",
+      payload: userWithoutPassword
+    });
+
   } catch (error) {
-    console.error(error); // Log the error for debugging
-    res.status(500).json({ message: "Internal server error" }); // Generic error message for user
+    console.error('Error creating user:', error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
+
+
 const handleGetUserData = async (req, res) => {
   try {
-    const userData = await User.find({}).limit(1);
+    const userData = await User.find({}).select('-password');
 
     res.json({
       statusCode: 200,
@@ -36,13 +49,32 @@ const handleGetUserData = async (req, res) => {
 
 const handleUpdateUserData = async (req, res) => {
   try {
-    const update = { username: req.body.username, email: req.body.email, ...req.body }; 
-    const updatedUserInfo = await User.findOneAndUpdate({}, update, { new: true });
+    const {id, username, email, phoneNumber, profilePicture, bio, resume } = req.body;
 
+    if(!id){
+      return res.status(400).json({ message: "Please provide an id to update user info." });
+    }
+
+    const currentUser = await User.findById(id);
+
+    const updatedUserInfo = {
+      username: username || currentUser.username,
+      email: email || currentUser.email,
+      phoneNumber: phoneNumber || currentUser.phoneNumber,
+      profilePicture: profilePicture || currentUser.profilePicture,
+      bio: bio || currentUser.bio,
+      resume: resume || currentUser.resume,
+      password: currentUser.password
+    }
+
+    let updatedUser = await User.findByIdAndUpdate(id, updatedUserInfo, { new: true });
+    updatedUser = { ...updatedUser.toObject() };
+    delete updatedUser.password;
+   
     res.json({
       statusCode: 200,
       message: "User data updated successfully",
-      payload: updatedUserInfo,
+      payload: updatedUser,
     });
   } catch (error) {
     console.error(error);

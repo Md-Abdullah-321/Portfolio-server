@@ -16,7 +16,7 @@ const handleUserLogin = async (req, res, next) => {
         }
 
         
-        const user = await Auth.findOne({ email });
+        const user = await User.findOne({ email });
         if (!user) {
             return errorResponse(res, {
                 statusCode: 401,
@@ -39,12 +39,13 @@ const handleUserLogin = async (req, res, next) => {
                 sameSite: 'none' 
             });
 
-            let userInfo = await User.find({});
-            delete userInfo[0].password;
+            let userInfo = { ...user.toObject() };
+            delete userInfo.password;
+
             return successResponse(res, {
                 statusCode: 200,
                 message: "Logged in successfully",
-                payload: userInfo[0]
+                payload: userInfo
             });
         } else {
             return errorResponse(res, {
@@ -58,6 +59,55 @@ const handleUserLogin = async (req, res, next) => {
     }
 };
 
+
+const handleChangePassword = async (req, res, next) => {
+    try {
+        const { id, currentPassword, newPassword } = req.body;
+
+        if (!id || !currentPassword || !newPassword) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "Please fill all the input fields."
+            });
+        }
+
+        const user = await User.findById(id);
+        if (!user) {
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "Could not find user with this id."
+            });
+        }
+
+        const isMatched = bcrypt.compareSync(currentPassword, user.password);
+        if (!isMatched) {
+            return errorResponse(res, {
+                statusCode: 401,
+                message: "Incorrect Password."
+            });
+        }
+
+        const hashedUpdatedPassword = await bcrypt.hash(newPassword, 10);
+
+        const updatedUser = await User.findByIdAndUpdate(id, { password: hashedUpdatedPassword }, { new: true });
+
+        const updatedUserWithoutPassword = { ...updatedUser.toObject() };
+        delete updatedUserWithoutPassword.password;
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Password has been updated successfully.",
+            payload: updatedUserWithoutPassword
+        });
+
+    } catch (error) {
+        console.error('Error changing password:', error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
 module.exports = {
     handleUserLogin,
+    handleChangePassword
 };
