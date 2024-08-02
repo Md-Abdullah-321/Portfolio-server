@@ -29,7 +29,7 @@ const handleUserLogin = async (req, res, next) => {
         if (isMatched) {
             // Generate JWT token
             const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
-                expiresIn: '7d'
+                expiresIn: '1d'
             });
 
             // Set cookie with JWT token
