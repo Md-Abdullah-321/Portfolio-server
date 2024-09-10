@@ -18,7 +18,7 @@ const corsOptions = {
   origin:  ['https://md-abdullah.vercel.app','http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // If you need to handle cookies and authorization headers
+  credentials: true, 
 };
 
 // Apply CORS Middleware
