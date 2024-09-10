@@ -36,10 +36,10 @@ const handleGetUserData = async (req, res) => {
   try {
     const userData = await User.find({}).select('-password');
 
-    res.json({
-      statusCode: 200,
-      message: "User data fetched successfully",
-      payload: userData[0],
+    return successResponse(res, {
+      statusCode: 201,
+      message: "User data fetched successfully.",
+      payload: userData[0]
     });
   } catch (error) {
     console.error(error);
@@ -71,10 +71,10 @@ const handleUpdateUserData = async (req, res) => {
     updatedUser = { ...updatedUser.toObject() };
     delete updatedUser.password;
    
-    res.json({
+    return successResponse(res, {
       statusCode: 200,
-      message: "User data updated successfully",
-      payload: updatedUser,
+      message: "User data updated successfully.",
+      payload: updatedUser
     });
   } catch (error) {
     console.error(error);
