@@ -8,6 +8,8 @@ require("dotenv").config();
 const handleUserLogin = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+        console.log(email);
+        
         if (!email || !password) {
             return errorResponse(res, {
                 statusCode: 204,

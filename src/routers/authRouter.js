@@ -8,11 +8,12 @@ const verifyToken = require("../middlewares/verifyToken");
 const userRouter = express.Router();
 
 
-//POST - Change user password:
-userRouter.put("/",verifyToken,handleChangePassword);
 
 //POST - User Login:
 userRouter.post("/", handleUserLogin);
+
+//POST - Change user password:
+userRouter.put("/",verifyToken,handleChangePassword);
 
 
 
