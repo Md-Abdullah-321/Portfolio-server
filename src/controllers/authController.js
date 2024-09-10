@@ -35,7 +35,7 @@ const handleUserLogin = async (req, res, next) => {
             });
 
             // Set cookie with JWT token
-            res.cookie('token', token, {
+            res.cookie('accessToken', token, {
                 httpOnly: true,
                 // secure: true, 
                 sameSite: 'none' 
