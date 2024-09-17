@@ -35,12 +35,14 @@ const handleUserLogin = async (req, res, next) => {
               
          
               res.cookie("accessToken", token, {
-                expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 day
+                expires: new Date(Date.now() + 1000 * 60 * 60 * 24), 
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', 
+                secure: true, 
                 sameSite: 'None', 
-                domain: '.vercel.app', 
-              });
+                domain: 'md-abdullah.vercel.app', 
+                path: '/', 
+            });
+            
 
             let userInfo = { ...user.toObject() };
             delete userInfo.password;
