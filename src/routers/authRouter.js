@@ -17,7 +17,7 @@ userRouter.post("/signin", handleUserLogin);
 userRouter.put("/",verifyToken, isLoggedIn , handleChangePassword);
 
 //POST - Logout user:
-userRouter.post("/signout",verifyToken, isLoggedIn , handleLogoutUser);
+userRouter.get("/signout",verifyToken, isLoggedIn , handleLogoutUser);
 
 
 
