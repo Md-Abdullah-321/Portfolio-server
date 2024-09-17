@@ -36,12 +36,12 @@ const handleUserLogin = async (req, res, next) => {
          
               res.cookie("accessToken", token, {
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 24), 
-                httpOnly: true,
+                httpOnly: true, 
                 secure: true, 
-                sameSite: 'None', 
-                domain: 'md-abdullah.vercel.app', 
+                sameSite: 'None',
                 path: '/', 
             });
+            
             
 
             let userInfo = { ...user.toObject() };
