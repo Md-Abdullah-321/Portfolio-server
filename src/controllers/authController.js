@@ -111,7 +111,22 @@ const handleChangePassword = async (req, res, next) => {
 };
 
 
+
+const handleLogoutUser = async (req, res, next) => {
+    try {
+        res.clearCookie("accessToken");
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Logged out successfully"
+        });
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
 module.exports = {
     handleUserLogin,
-    handleChangePassword
+    handleChangePassword,
+    handleLogoutUser
 };

@@ -3,17 +3,21 @@
 
 //dependencies:
 const express = require("express");
-const { handleUserLogin, handleChangePassword } = require("../controllers/authController");
+const { handleUserLogin, handleChangePassword, handleLogoutUser } = require("../controllers/authController");
 const verifyToken = require("../middlewares/verifyToken");
+const isLoggedIn = require("../middlewares/isLoggedIn");
 const userRouter = express.Router();
 
 
 
 //POST - User Login:
-userRouter.post("/", handleUserLogin);
+userRouter.post("/signin", handleUserLogin);
 
 //POST - Change user password:
-userRouter.put("/",verifyToken,handleChangePassword);
+userRouter.put("/",verifyToken, isLoggedIn , handleChangePassword);
+
+//POST - Logout user:
+userRouter.post("/signout",verifyToken, isLoggedIn , handleLogoutUser);
 
 
 
