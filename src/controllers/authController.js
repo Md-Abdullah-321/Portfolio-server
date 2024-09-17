@@ -35,10 +35,9 @@ const handleUserLogin = async (req, res, next) => {
             });
 
             // Set cookie with JWT token
-            res.cookie('accessToken', token, {
-                httpOnly: true,
-                // secure: true, 
-                sameSite: 'none' 
+            res.cookie("accessToken", token, {
+                expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+                httpOnly: true
             });
 
             let userInfo = { ...user.toObject() };
