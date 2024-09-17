@@ -30,14 +30,17 @@ const handleUserLogin = async (req, res, next) => {
         if (isMatched) {
             // Generate JWT token
             const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
-                expiresIn: '1d'
-            });
-
-            res.cookie("accessToken", token, {
-                expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+                expiresIn: '1d',
+              });
+              
+         
+              res.cookie("accessToken", token, {
+                expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 day
                 httpOnly: true,
-                domain: 'https://md-abdullah.vercel.app/' 
-            });
+                secure: process.env.NODE_ENV === 'production', 
+                sameSite: 'None', 
+                domain: 'https://md-abdullah.vercel.app', 
+              });
 
             let userInfo = { ...user.toObject() };
             delete userInfo.password;
