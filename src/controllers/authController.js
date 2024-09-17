@@ -37,7 +37,7 @@ const handleUserLogin = async (req, res, next) => {
               res.cookie("accessToken", token, {
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 day
                 httpOnly: true,
-                secure: true, 
+                secure: process.env.NODE_ENV === 'production', 
                 sameSite: 'None', 
                 domain: '.vercel.app', 
               });
