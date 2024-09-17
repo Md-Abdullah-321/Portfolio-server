@@ -30,14 +30,10 @@ const handleUserLogin = async (req, res, next) => {
         const isMatched = bcrypt.compareSync(password, user.password);
         if (isMatched) {
             // Generate JWT token
-            const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
-                expiresIn: '1d'
-            });
-
-            // Set cookie with JWT token
             res.cookie("accessToken", token, {
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
-                httpOnly: true
+                httpOnly: true,
+                domain: 'https://md-abdullah.vercel.app/' 
             });
 
             let userInfo = { ...user.toObject() };
