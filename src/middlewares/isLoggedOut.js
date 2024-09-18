@@ -5,9 +5,7 @@
  * Date: 10/09/2024
  */
 
-const jwt = require('jsonwebtoken');
-const { errorResponse } = require('../controllers/responseControllers');
-const { SECRET_KEY } = process.env;
+const { errorResponse } = require("../controllers/responseControllers");
 
 
 
@@ -23,9 +21,8 @@ const { SECRET_KEY } = process.env;
 const isLoggedOut = (req, res, next) => { 
     try {
         const token = req.cookies.accessToken;
-        const decoded = jwt.verify(token, SECRET_KEY);
 
-        if(decoded) {
+        if(token) {
             return errorResponse(res, { statusCode: 401, message: "Unauthorized: You are already logged in." });
         }
 
