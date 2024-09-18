@@ -31,3 +31,7 @@ const isLoggedOut = (req, res, next) => {
         next(error);
     }   
 };
+
+
+
+module.exports = isLoggedOut;

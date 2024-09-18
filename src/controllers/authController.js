@@ -29,7 +29,7 @@ const handleUserLogin = async (req, res, next) => {
         const isMatched = bcrypt.compareSync(password, user.password);
         if (isMatched) {
             // Generate JWT token
-            const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
+            const token = jwt.sign({ email: email }, process.env.SECRET_KEY, {
                 expiresIn: '1d',
               });
               
@@ -52,7 +52,6 @@ const handleUserLogin = async (req, res, next) => {
                 message: "Logged in successfully",
                 payload: {
                     ...userInfo,
-                    token
                 }
             });
         } else {

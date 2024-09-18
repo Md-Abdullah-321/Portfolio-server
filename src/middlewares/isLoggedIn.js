@@ -5,6 +5,8 @@
  * Date: 10/09/2024
  */
 
+const { errorResponse } = require("../controllers/responseControllers");
+
 
 
 /**
@@ -17,14 +19,14 @@
  */
 const isLoggedIn = (req, res, next) => {
     if (req.user === null || req.user === undefined) {
-        return res.status(401).json({ message: "Unauthorized: Please login first." });
+        return errorResponse(res, { statusCode: 401, message: "Unauthorized: User is not logged in." });
     }
 
     try {
         next();
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        return errorResponse(res, { statusCode: 500, message: "Internal server error" });
     }
 };
 

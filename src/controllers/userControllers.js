@@ -5,15 +5,18 @@ const { successResponse } = require("./responseControllers");
 
 const handlePostUserData = async (req, res) => {
   try {
-    const { username, email, password, phoneNumber, profilePicture, bio, resume } = req.body;
+    const { name, jobTitle, jobSubTitle, email, secondaryEmail, phoneNumbers, password, profilePicture, bioOne, bioTwo, resume, socialLinks, location } = req.body;
 
-    if (!username || !email || !password || !phoneNumber || !profilePicture || !bio || !resume) {
-      return res.status(400).json({ message: "Please fill all the input fields" });
+    if (!email || !password) {
+      return errorResponse(res, {
+        statusCode: 204,
+        message: "Please fill all the input fields."
+      })
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({ username, email, password: hashedPassword, phoneNumber, profilePicture, bio, resume });
+    const user = await User.create({ name, jobTitle, jobSubTitle, email,secondaryEmail, phoneNumbers, password: hashedPassword, profilePicture, bioOne, bioTwo, resume, socialLinks, location });
 
     const userWithoutPassword = { ...user.toObject() };
     delete userWithoutPassword.password;
@@ -49,25 +52,35 @@ const handleGetUserData = async (req, res) => {
 
 const handleUpdateUserData = async (req, res) => {
   try {
-    const {id, username, email, phoneNumber, profilePicture, bio, resume } = req.body;
+    const {name, jobTitle, jobSubTitle, email, secondaryEmail, phoneNumbers, password, profilePicture, bioOne, bioTwo, resume, socialLinks, location} = req.body;
+    const decodedEmail = req.user.email;
 
-    if(!id){
-      return res.status(400).json({ message: "Please provide an id to update user info." });
+    if(!decodedEmail){
+      return errorResponse(res, {
+        statusCode: 401,
+        message: "Unauthorized: Please login first."
+      })
     }
 
-    const currentUser = await User.findById(id);
+    const currentUser = await User.findOne({email : decodedEmail});
 
     const updatedUserInfo = {
-      username: username || currentUser.username,
+      name: name || currentUser.name,
+      jobTitle: jobTitle || currentUser.jobTitle,
+      jobSubTitle: jobSubTitle || currentUser.jobSubTitle,
       email: email || currentUser.email,
-      phoneNumber: phoneNumber || currentUser.phoneNumber,
+      secondaryEmail: secondaryEmail || currentUser.secondaryEmail,
+      phoneNumbers: phoneNumbers || currentUser.phoneNumbers,
+      password: password || currentUser.password,
       profilePicture: profilePicture || currentUser.profilePicture,
-      bio: bio || currentUser.bio,
+      bioOne: bioOne || currentUser.bioOne,
+      bioTwo: bioTwo || currentUser.bioTwo,
       resume: resume || currentUser.resume,
-      password: currentUser.password
-    }
+      socialLinks: socialLinks || currentUser.socialLinks,
+      location: location || currentUser.location
+    };
 
-    let updatedUser = await User.findByIdAndUpdate(id, updatedUserInfo, { new: true });
+    let updatedUser = await User.findOneAndUpdate({email: decodedEmail}, updatedUserInfo, { new: true });
     updatedUser = { ...updatedUser.toObject() };
     delete updatedUser.password;
    
