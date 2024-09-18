@@ -71,7 +71,6 @@ const handleUpdateUserData = async (req, res) => {
       email: email || currentUser.email,
       secondaryEmail: secondaryEmail || currentUser.secondaryEmail,
       phoneNumbers: phoneNumbers || currentUser.phoneNumbers,
-      password: password || currentUser.password,
       profilePicture: profilePicture || currentUser.profilePicture,
       bioOne: bioOne || currentUser.bioOne,
       bioTwo: bioTwo || currentUser.bioTwo,

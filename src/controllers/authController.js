@@ -26,7 +26,7 @@ const handleUserLogin = async (req, res, next) => {
         }
 
         // Compare passwords
-        const isMatched = bcrypt.compareSync(password, user.password);
+        const isMatched = bcrypt.compareSync(password.trim(), user.password.trim());
         if (isMatched) {
             // Generate JWT token
             const token = jwt.sign({ email: email }, process.env.SECRET_KEY, {
