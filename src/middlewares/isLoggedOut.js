@@ -20,7 +20,7 @@ const { errorResponse } = require("../controllers/responseControllers");
  */
 const isLoggedOut = (req, res, next) => { 
     try {
-        const token = req.cookies.accessToken;
+        const token = req.cookies?.accessToken;
 
         if(token) {
             return errorResponse(res, { statusCode: 401, message: "Unauthorized: You are already logged in." });

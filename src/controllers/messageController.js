@@ -16,10 +16,10 @@ const handlePostMessage = async (req, res, next) => {
 
         await Message.create({ name, email, subject, message });
 
-        return res.status(201).json({
-            statusCode: 201,
+        return successResponse(res, {
+            statusCode: 202,
             message: "Message has been sent successfully"
-        });
+        })
     } catch (error) {
       
         next(error);

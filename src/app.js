@@ -15,7 +15,7 @@ require("dotenv").config();
 
 // CORS Configuration
 const corsOptions = {
-  origin:  ['https://md-abdullah.vercel.app','http://localhost:3000'],
+  origin:  ['https://md-abdullah.vercel.app','https://mdabdullah.info', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, 
